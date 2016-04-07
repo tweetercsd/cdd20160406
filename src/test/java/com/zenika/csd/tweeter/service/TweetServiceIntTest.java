@@ -1,25 +1,24 @@
 package com.zenika.csd.tweeter.service;
 
-import com.zenika.csd.tweeter.TweeterApp;
-import com.zenika.csd.tweeter.domain.Tweet;
-import com.zenika.csd.tweeter.domain.User;
-import com.zenika.csd.tweeter.repository.PersistentTokenRepository;
-import com.zenika.csd.tweeter.repository.TweetRepository;
-import com.zenika.csd.tweeter.repository.UserRepository;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.IntegrationTest;
 import org.springframework.boot.test.SpringApplicationConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.inject.Inject;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
+import com.zenika.csd.tweeter.TweeterApp;
+import com.zenika.csd.tweeter.domain.Tweet;
+import com.zenika.csd.tweeter.domain.User;
+import com.zenika.csd.tweeter.repository.UserRepository;
 
 /**
  * Test class for the UserResource REST controller.
