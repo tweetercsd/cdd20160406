@@ -18,21 +18,15 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
                     <th><span>Messsage</span></th>
                     <th><span>Date</span></th>
-                    <th><span>user</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="tweet in vm.tweets track by tweet.id">
-                    <td><a ui-sref="tweet-detail({id:tweet.id})">{{tweet.id}}</a></td>
                     <td>{{tweet.messsage}}</td>
                     <td>{{tweet.date | date:'medium'}}</td>
-                    <td>
-                        {{tweet.user.login}}
-                    </td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
