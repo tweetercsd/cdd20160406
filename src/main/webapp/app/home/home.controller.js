@@ -13,6 +13,7 @@
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
+        
         $scope.$on('authenticationSuccess', function() {
             getAccount();
         });
