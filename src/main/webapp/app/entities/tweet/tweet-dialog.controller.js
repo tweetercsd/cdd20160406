@@ -5,9 +5,9 @@
         .module('tweeterApp')
         .controller('TweetDialogController', TweetDialogController);
 
-    TweetDialogController.$inject = ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Tweet', 'User'];
+    TweetDialogController.$inject = ['$scope', '$stateParams', '$uibModalInstance', 'entity', 'Tweet', 'User', 'Principal', 'LoginService'];
 
-    function TweetDialogController ($scope, $stateParams, $uibModalInstance, entity, Tweet, User) {
+    function TweetDialogController ($scope, $stateParams, $uibModalInstance, entity, Tweet, User, Principal, LoginService) {
         var vm = this;
         vm.tweet = entity;
         vm.users = User.query();
@@ -16,6 +16,20 @@
                 vm.tweet = result;
             });
         };
+        
+        vm.account = null;
+        vm.login = LoginService.open;
+        $scope.$on('authenticationSuccess', function() {
+            getAccount();
+        });
+
+        getAccount();
+
+        function getAccount() {
+            Principal.identity().then(function(account) {
+                vm.account = account;
+            });
+        }
 
         var onSaveSuccess = function (result) {
             $scope.$emit('tweeterApp:tweetUpdate', result);
@@ -28,6 +42,14 @@
         };
 
         vm.save = function () {
+        	for (var i = 0; i < vm.users.length; i++) { 
+        	    if (vm.users[i].login == vm.account.login) {
+        	    	vm.tweet.user = vm.users[i];
+        	    	break;
+        	    }
+        	}
+        	
+        	vm.tweet.date = new Date();
             vm.isSaving = true;
             if (vm.tweet.id !== null) {
                 Tweet.update(vm.tweet, onSaveSuccess, onSaveError);
