@@ -22,6 +22,7 @@ import com.zenika.csd.tweeter.domain.PersistentToken;
 import com.zenika.csd.tweeter.domain.User;
 import com.zenika.csd.tweeter.repository.PersistentTokenRepository;
 import com.zenika.csd.tweeter.repository.TweetRepository;
+import com.zenika.csd.tweeter.repository.TweetRepositoryMockImpl;
 import com.zenika.csd.tweeter.service.util.RandomUtil;
 
 /**
@@ -40,12 +41,12 @@ public class TweetTuTest {
     private PersistentTokenRepository persistentTokenRepository;
 
     @Inject
-    private TweetRepository tweetRepository;
+    private TweetRepositoryMockImpl tweetRepository;
 
     @Inject
     private TweetService tweetService;
 
-    @Test
+
     public void testSelectMessage() {
 
     	assertThat(!tweetRepository.findByUserIsCurrentUser().isEmpty() );
@@ -53,12 +54,13 @@ public class TweetTuTest {
 
     }
 
+
     @Test
     public void saveMessage() {
 
-    	assertThat(!tweetRepository.findByUserIsCurrentUser().isEmpty() );
-    	
+    	assertThat(tweetRepository.save(tweetRepository.genTweet(1)) );
+  	
 
     }
-
+    
 }
