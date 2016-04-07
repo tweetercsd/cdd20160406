@@ -42,7 +42,7 @@
 
         <div class="form-group">
             <label for="field_user">user</label>
-            <select class="form-control" id="field_user" name="user" ng-model="vm.tweet.user" ng-options="user as user.userId for user in vm.users track by user.id">
+            <select class="form-control" id="field_user" name="user" ng-model="vm.tweet.user" ng-options="user as user.login for user in vm.users track by user.id">
                 <option value=""></option>
             </select>
         </div>
