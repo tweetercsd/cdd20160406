@@ -32,12 +32,6 @@ import static org.assertj.core.api.Assertions.*;
 @IntegrationTest
 @Transactional
 public class TweetServiceIntTest {
-
-    @Inject
-    private PersistentTokenRepository persistentTokenRepository;
-
-    @Inject
-    private TweetRepository tweeterRepository;
     
     @Inject
     private UserRepository userRepository;
