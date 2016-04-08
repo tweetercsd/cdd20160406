@@ -18,15 +18,30 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
+                    <th><span>Followers</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="follower in vm.followers track by follower.id ">
+                    <td>{{follower.login}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
                     <th><span>Messsage</span></th>
                     <th><span>Date</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="tweet in vm.tweets track by tweet.id">
+                <tr ng-repeat="tweet in vm.tweets track by tweet.id ">
                     <td>{{tweet.messsage}}</td>
                     <td>{{tweet.date | date:'medium'}}</td>
+                    <td>{{tweet.user.login}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
