@@ -1,16 +1,15 @@
 package com.zenika.csd.tweeter.service;
 
-import com.zenika.csd.tweeter.domain.Authority;
-import com.zenika.csd.tweeter.domain.PersistentToken;
-import com.zenika.csd.tweeter.domain.User;
-import com.zenika.csd.tweeter.repository.AuthorityRepository;
-import com.zenika.csd.tweeter.repository.PersistentTokenRepository;
-import com.zenika.csd.tweeter.repository.UserRepository;
-import com.zenika.csd.tweeter.security.SecurityUtils;
-import com.zenika.csd.tweeter.service.util.RandomUtil;
-import com.zenika.csd.tweeter.web.rest.dto.ManagedUserDTO;
-import java.time.ZonedDateTime;
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -18,9 +17,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.ZonedDateTime;
-import javax.inject.Inject;
-import java.util.*;
+import com.zenika.csd.tweeter.domain.Authority;
+import com.zenika.csd.tweeter.domain.User;
+import com.zenika.csd.tweeter.repository.AuthorityRepository;
+import com.zenika.csd.tweeter.repository.PersistentTokenRepository;
+import com.zenika.csd.tweeter.repository.UserRepository;
+import com.zenika.csd.tweeter.security.SecurityUtils;
+import com.zenika.csd.tweeter.service.util.RandomUtil;
+import com.zenika.csd.tweeter.web.rest.dto.ManagedUserDTO;
 
 /**
  * Service class for managing users.
@@ -166,13 +170,7 @@ public class UserService {
         });
     }
 
-    @Transactional(readOnly = true)
-    public Optional<User> getUserWithAuthoritiesByLogin(String login) {
-        return userRepository.findOneByLogin(login).map(u -> {
-            u.getAuthorities().size();
-            return u;
-        });
-    }
+  
 
     @Transactional(readOnly = true)
     public User getUserWithAuthorities(Long id) {
@@ -186,6 +184,20 @@ public class UserService {
         User user = userRepository.findOneByLogin(SecurityUtils.getCurrentUserLogin()).get();
         user.getAuthorities().size(); // eagerly load the association
         return user;
+    }
+    
+    @Transactional(readOnly = true)
+    public Optional<User> getUserWithAuthoritiesByLogin(String login) {
+        return userRepository.findOneByLogin(login).map(u -> {
+            u.getAuthorities().size();
+            return u;
+        });
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getFollowers(String id) {
+        List<User> followers = new ArrayList<User>();
+        return followers;
     }
 
     /**

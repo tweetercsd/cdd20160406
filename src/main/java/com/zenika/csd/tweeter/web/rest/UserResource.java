@@ -1,17 +1,15 @@
 package com.zenika.csd.tweeter.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
-import com.zenika.csd.tweeter.domain.Authority;
-import com.zenika.csd.tweeter.domain.User;
-import com.zenika.csd.tweeter.repository.AuthorityRepository;
-import com.zenika.csd.tweeter.repository.UserRepository;
-import com.zenika.csd.tweeter.security.AuthoritiesConstants;
-import com.zenika.csd.tweeter.service.MailService;
-import com.zenika.csd.tweeter.service.UserService;
-import com.zenika.csd.tweeter.web.rest.dto.ManagedUserDTO;
-import com.zenika.csd.tweeter.web.rest.dto.UserDTO;
-import com.zenika.csd.tweeter.web.rest.util.HeaderUtil;
-import com.zenika.csd.tweeter.web.rest.util.PaginationUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -22,14 +20,23 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import java.net.URI;
-import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.codahale.metrics.annotation.Timed;
+import com.zenika.csd.tweeter.domain.Authority;
+import com.zenika.csd.tweeter.domain.User;
+import com.zenika.csd.tweeter.repository.AuthorityRepository;
+import com.zenika.csd.tweeter.repository.UserRepository;
+import com.zenika.csd.tweeter.security.AuthoritiesConstants;
+import com.zenika.csd.tweeter.service.MailService;
+import com.zenika.csd.tweeter.service.UserService;
+import com.zenika.csd.tweeter.web.rest.dto.ManagedUserDTO;
+import com.zenika.csd.tweeter.web.rest.util.HeaderUtil;
+import com.zenika.csd.tweeter.web.rest.util.PaginationUtil;
 
 /**
  * REST controller for managing users.
@@ -198,10 +205,12 @@ public class UserResource {
     @Timed
     public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
-        return userService.getUserWithAuthoritiesByLogin(login)
+        ResponseEntity<ManagedUserDTO> dto =  userService.getUserWithAuthoritiesByLogin(login)
                 .map(ManagedUserDTO::new)
                 .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        dto.getBody().setFollowers(userService.getFollowers(login));
+        return dto;
     }
     /**
      * DELETE  USER :login : delete the "login" User.

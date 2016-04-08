@@ -1,6 +1,7 @@
 package com.zenika.csd.tweeter.web.rest.dto;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import com.zenika.csd.tweeter.domain.User;
 
@@ -16,6 +17,8 @@ public class ManagedUserDTO extends UserDTO {
     private String lastModifiedBy;
 
     private ZonedDateTime lastModifiedDate;
+    
+    private List<User> followers;
 
     public ManagedUserDTO() {
     }
@@ -26,6 +29,7 @@ public class ManagedUserDTO extends UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.followers = null;
     }
 
     public Long getId() {
@@ -59,8 +63,18 @@ public class ManagedUserDTO extends UserDTO {
     public void setLastModifiedDate(ZonedDateTime lastModifiedDate) {
         this.lastModifiedDate = lastModifiedDate;
     }
+    
+    
 
-    @Override
+    public List<User> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<User> followers) {
+		this.followers = followers;
+	}
+
+	@Override
     public String toString() {
         return "ManagedUserDTO{" +
             "id=" + id +

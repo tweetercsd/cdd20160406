@@ -1,0 +1,4 @@
+Listing des Tests implémentés 
+
+********************* TU **********************
+UserServiceTUTest : testGetFollowers : test le retour du nombre de followers par la méthode getFollowers de UserService
